@@ -28,7 +28,12 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      # KSP AWT NullPointerException ကို တားဆီးရန် Headless Mode သတ်မှတ်ခြင်း
+      # Keystore file မရှိလို့ Build Fail တာကို ကာကွယ်ရန် Dummy Debug Keystore ဖန်တီးပေးခြင်း
+      - name: Create Debug Keystore
+        run: |
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+
+      # KSP Headless Mode ဖြင့် Debug APK ကို Build လုပ်မည်
       - name: Build Debug APK
         env:
           GRADLE_OPTS: "-Djava.awt.headless=true"
