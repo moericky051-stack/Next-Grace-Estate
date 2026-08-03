@@ -25,12 +25,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Gradle Wrapper ပျက်နေပါက ပြန်လည် ထည့်သွင်းပေးမည်
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      # gradle command ဖြင့် တိုက်ရိုက် build လုပ်မည်
+      # KSP AWT NullPointerException ကို တားဆီးရန် Headless Mode သတ်မှတ်ခြင်း
       - name: Build Debug APK
+        env:
+          GRADLE_OPTS: "-Djava.awt.headless=true"
         run: gradle assembleDebug -x test
 
       - name: Upload Debug APK Artifact
