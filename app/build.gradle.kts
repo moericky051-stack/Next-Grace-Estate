@@ -67,13 +67,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.9.3")
 
-    // Coil Image Loading Library (AsyncImage အတွက်)
+    // Coil Image Loading Library
     implementation("io.coil-kt:coil-compose:2.7.0")
 
-implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    // Retrofit & Moshi Converter (MoshiConverterFactory အတွက်)
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
-}
 
     // Jetpack Compose (BOM)
     implementation(platform("androidx.compose:compose-bom:2024.10.01"))
