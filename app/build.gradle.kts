@@ -11,8 +11,8 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        // Firebase google-services.json နှင့် အတိအကျ ကိုက်ညီအောင် သတ်မှတ်ထားသည်
-        applicationId = "com.aistudio.realestate.shwehouse.edeaff"
+        // Firebase Console ထဲရှိ Package Name (com.aistudio.realestate) နှင့် အတိအကျ ညှိထားသည်
+        applicationId = "com.aistudio.realestate"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
