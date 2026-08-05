@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.aistudio.realestate.shwehouse.edeaff"
+    namespace = "com.aistudio.realestate"
     compileSdk = 35
 
     defaultConfig {
