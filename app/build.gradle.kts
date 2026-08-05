@@ -63,9 +63,6 @@ android {
 
 dependencies {
     // AndroidX Core & Lifecycle
-
-    implementation("androidx.compose.material:material-icons-extended")
-}
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.9.3")
@@ -76,6 +73,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+
+    // Material Icons (BookmarkRemove, AdminPanelSettings စသည်တို့အတွက် မဖြစ်မနေလိုအပ်သည်)
+    implementation("androidx.compose.material:material-icons-extended")
 
     // Firebase (BOM)
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
