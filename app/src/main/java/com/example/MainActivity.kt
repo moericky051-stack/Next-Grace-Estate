@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel: RealEstateViewModel = viewModel()
             val currentTheme by viewModel.selectedTheme.collectAsStateWithLifecycle()
-            
+
             MyApplicationTheme(themeOption = currentTheme) {
                 RealEstateApp(viewModel = viewModel)
             }
