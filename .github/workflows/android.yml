@@ -27,11 +27,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Debug Keystore Auto-Generate လုပ်ပေးသည့် Step
-      - name: Generate Debug Keystore
+      # Project Root Folder ထဲတွင် debug.keystore ကို အလိုအလျောက် Generate လုပ်ပေးသည့် Step
+      - name: Create Project-level Debug Keystore
         run: |
-          mkdir -p ~/.android
-          keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
 
       # Unit Tests Run ခြင်း
       - name: Run Unit Tests
