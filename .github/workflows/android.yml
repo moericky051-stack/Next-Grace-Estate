@@ -21,13 +21,15 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      # Corrupt ဖြစ်နေသော gradle-wrapper.jar ကို ပြန်လည် ထုတ်ပေးမည့် Step
+      - name: Regenerate Gradle Wrapper
+        run: gradle wrapper
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # KSP Memory Issue နဲ့ NullPointer Exception မတက်စေရန် Memory ချိန်ညှိပြီး Unit Tests Run ခြင်း
       - name: Run Unit Tests
         run: ./gradlew test --no-daemon -Dorg.gradle.jvmargs="-Xmx2048m -XX:MaxMetaspaceSize=512m"
 
-      # Tests အားလုံး အောင်မြင်ပြီးပါက App ကို Build ဆောက်ခြင်း
       - name: Build Debug APK
         run: ./gradlew assembleDebug --no-daemon
