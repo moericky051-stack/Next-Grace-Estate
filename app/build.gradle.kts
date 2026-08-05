@@ -1,3 +1,4 @@
+// App-level build.gradle.kts (app/)
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -22,7 +23,6 @@ android {
 
     signingConfigs {
         create("debugConfig") {
-            // Root project ထဲတွင် debug.keystore ရှိမှ သုံးမည်
             val keystoreFile = rootProject.file("debug.keystore")
             if (keystoreFile.exists()) {
                 storeFile = keystoreFile
