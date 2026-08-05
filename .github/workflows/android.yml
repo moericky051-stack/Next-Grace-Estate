@@ -1,18 +1,17 @@
-name: Android CI/CD Pipeline
+name: Build & Test Android App
 
 on:
   push:
-    branches: [ "main", "master", "develop" ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "main", "master", "develop" ]
+    branches: [ "main", "master" ]
 
 jobs:
-  build:
-    name: Build & Test Android App
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -20,29 +19,15 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'gradle'
+          cache: gradle
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew || true
+        run: chmod +x gradlew
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
+      # KSP Memory Issue နဲ့ NullPointer Exception မတက်စေရန် Memory ချိန်ညှိပြီး Unit Tests Run ခြင်း
       - name: Run Unit Tests
-        run: gradle testDebugUnitTest --continue
+        run: ./gradlew test --no-daemon -Dorg.gradle.jvmargs="-Xmx2048m -XX:MaxMetaspaceSize=512m"
 
+      # Tests အားလုံး အောင်မြင်ပြီးပါက App ကို Build ဆောက်ခြင်း
       - name: Build Debug APK
-        run: gradle assembleDebug
-
-      - name: Upload Debug APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: grace-realestate-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+        run: ./gradlew assembleDebug --no-daemon
