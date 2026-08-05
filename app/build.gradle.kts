@@ -1,9 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.google.gms.google.services)
-    alias(libs.plugins.ksp)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -11,7 +10,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        // Firebase Console ထဲရှိ Package Name (com.aistudio.realestate) နှင့် အတိအကျ ညှိထားသည်
+        // Firebase Console ရှိ Package Name နှင့် အတိအကျ ညှိထားသည်
         applicationId = "com.aistudio.realestate"
         minSdk = 24
         targetSdk = 35
