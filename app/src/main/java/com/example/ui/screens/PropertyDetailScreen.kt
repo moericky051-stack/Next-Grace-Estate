@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import com.aistudio.realestate.R
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
