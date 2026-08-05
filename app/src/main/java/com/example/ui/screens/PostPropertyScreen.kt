@@ -64,7 +64,7 @@ fun PostPropertyScreen(
     val context = LocalContext.current
 
     var title by remember { mutableStateOf(existingProperty?.title ?: "") }
-    var listingType by remember { mutableStateOf(existingProperty?.listingType ?: "BUY") } // BUY or RENT
+    var listingType by remember { mutableStateOf(existingProperty?.listingType ?: "SELL") } // SELL, RENT, or BUY
     var propertyType by remember { mutableStateOf(existingProperty?.propertyType ?: "Condo") }
     var priceLakhsText by remember { mutableStateOf(existingProperty?.priceLakhs?.let { if (it % 1.0 == 0.0) it.toInt().toString() else it.toString() } ?: "") }
     var city by remember { mutableStateOf(existingProperty?.city ?: "Yangon") }
@@ -165,17 +165,17 @@ fun PostPropertyScreen(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
 
-                    // 1. Listing Type Toggle (ဝယ်ရန်/ရောင်းရန် vs ငှားရန်)
+                    // 1. Listing Type Selection (ရောင်းရန် / ငှားရန် / ဝယ်ရန်)
                     Text("ကြော်ငြာအမျိုးအစား (Listing Type)", fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         FilterChip(
-                            selected = listingType == "BUY",
-                            onClick = { listingType = "BUY" },
-                            label = { Text("ဝယ်ရန်/ရောင်းရန် (Sale)") },
+                            selected = listingType == "SELL" || listingType == "SALE",
+                            onClick = { listingType = "SELL" },
+                            label = { Text("ရောင်းရန် (Sale)", fontSize = 12.sp) },
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = RealEstateNavy,
                                 selectedLabelColor = RealEstateGold
@@ -185,7 +185,17 @@ fun PostPropertyScreen(
                         FilterChip(
                             selected = listingType == "RENT",
                             onClick = { listingType = "RENT" },
-                            label = { Text("ငှားရန် (Rent)") },
+                            label = { Text("ငှားရန် (Rent)", fontSize = 12.sp) },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = RealEstateNavy,
+                                selectedLabelColor = RealEstateGold
+                            ),
+                            modifier = Modifier.weight(1f)
+                        )
+                        FilterChip(
+                            selected = listingType == "BUY",
+                            onClick = { listingType = "BUY" },
+                            label = { Text("ဝယ်ရန် (Buy)", fontSize = 12.sp) },
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = RealEstateNavy,
                                 selectedLabelColor = RealEstateGold

@@ -245,16 +245,18 @@ fun HomeScreen(
                         }
                     }
 
-                    // Listing Type Selector Tabs (အားလုံး | ဝယ်ရန် | ငှားရန် | ကျွန်ုပ်၏ ကြော်ငြာများ)
-                    TabRow(
+                    // Listing Type Selector Tabs (အားလုံး | ရောင်းရန် | ငှားရန် | ဝယ်ရန် | ကျွန်ုပ်၏ ကြော်ငြာများ)
+                    ScrollableTabRow(
                         selectedTabIndex = when (selectedTab) {
-                            "BUY" -> 1
+                            "SELL" -> 1
                             "RENT" -> 2
-                            "MY_LISTINGS" -> 3
+                            "BUY" -> 3
+                            "MY_LISTINGS" -> 4
                             else -> 0
                         },
                         containerColor = Color.Transparent,
                         contentColor = RealEstateGold,
+                        edgePadding = 8.dp,
                         divider = {}
                     ) {
                         Tab(
@@ -264,15 +266,21 @@ fun HomeScreen(
                             modifier = Modifier.height(34.dp)
                         )
                         Tab(
-                            selected = selectedTab == "BUY",
-                            onClick = { onTabSelected("BUY") },
-                            text = { Text("ဝယ်/ရောင်း", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
+                            selected = selectedTab == "SELL",
+                            onClick = { onTabSelected("SELL") },
+                            text = { Text("ရောင်းရန်", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
                             modifier = Modifier.height(34.dp)
                         )
                         Tab(
                             selected = selectedTab == "RENT",
                             onClick = { onTabSelected("RENT") },
                             text = { Text("ငှားရန်", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
+                            modifier = Modifier.height(34.dp)
+                        )
+                        Tab(
+                            selected = selectedTab == "BUY",
+                            onClick = { onTabSelected("BUY") },
+                            text = { Text("ဝယ်ရန်", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
                             modifier = Modifier.height(34.dp)
                         )
                         Tab(

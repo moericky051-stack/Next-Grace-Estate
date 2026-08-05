@@ -205,7 +205,7 @@ class PropertyRepository(
             val sampleProperties = listOf(
                 Property(
                     title = "ကမာရွတ်မြို့နယ် ပြင်ဆင်ပြီး ကွန်ဒိုသစ် အမြန်ရောင်းမည်",
-                    listingType = "BUY",
+                    listingType = "SELL",
                     propertyType = "Condo",
                     priceLakhs = 3800.0,
                     pricePeriod = "TOTAL",
@@ -227,7 +227,7 @@ class PropertyRepository(
                 ),
                 Property(
                     title = "ဗဟန်းမြို့နယ် ဆိတ်ငြိမ်ရပ်ကွက် လုံးချင်း 2RC အိမ်ကျယ် ရောင်းမည်",
-                    listingType = "BUY",
+                    listingType = "SELL",
                     propertyType = "House",
                     priceLakhs = 18500.0,
                     pricePeriod = "TOTAL",
@@ -267,6 +267,28 @@ class PropertyRepository(
                     agentName = "ကိုအောင်ကျော် (City Property Agency)",
                     agentPhone = "09250123456",
                     agentType = "Verified Agent",
+                    isFavorite = false
+                ),
+                Property(
+                    title = "မရမ်းကုန်းမြို့နယ်တွင် ကွန်ဒိုအခန်း (၃ ခန်းတွဲ) အမြန် ဝယ်ယူလိုပါသည်",
+                    listingType = "BUY",
+                    propertyType = "Condo",
+                    priceLakhs = 5000.0,
+                    pricePeriod = "TOTAL",
+                    city = "Yangon",
+                    township = "မရမ်းကုန်း (Mayangone)",
+                    address = "ပြည်လမ်းမအနီး၊ မရမ်းကုန်းမြို့နယ်၊ ရန်ကုန်။",
+                    areaSqft = 1600,
+                    bedrooms = 3,
+                    bathrooms = 2,
+                    floorLevel = "Mid-Floor",
+                    furnishing = "Any",
+                    deedType = "Grant Land",
+                    description = "မရမ်းကုန်း သို့မဟုတ် လှိုင်မြို့နယ်အတွင်း ကားရပ်နားရန်ပါရှိသော ကွန်ဒိုအခန်းကျယ် (သိန်း ၅၀၀၀ ဝန်းကျင်) အမြန် ဝယ်ယူလိုပါသည်။ တိုက်ရိုက်ပိုင်ရှင် ဆက်သွယ်နိုင်ပါသည်။",
+                    imageResName = "img_hero_banner",
+                    agentName = "ဒေါ်အေးအေး (ဝယ်လိုသူ)",
+                    agentPhone = "09880011223",
+                    agentType = "User Post",
                     isFavorite = false
                 )
             )

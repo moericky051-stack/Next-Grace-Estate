@@ -334,9 +334,19 @@ class RealEstateViewModel(application: Application) : AndroidViewModel(applicati
                     p.address.contains(filter.query, ignoreCase = true)
 
             val matchesTab = when (filter.tab) {
-                "BUY" -> p.listingType == "BUY"
+                "SELL" -> p.listingType == "SELL" || p.listingType == "SALE"
                 "RENT" -> p.listingType == "RENT"
-                "MY_LISTINGS" -> (p.userId.isNotBlank() && p.userId == filter.currentUid) || p.agentType == "Direct Post" || p.agentType == "User Post"
+                "BUY" -> p.listingType == "BUY"
+                "MY_LISTINGS" -> {
+                    val uid = filter.currentUid
+                    val profile = userProfile.value
+                    val admin = profile?.isAdmin == true || profile?.email?.lowercase()?.contains("admin") == true || uid == "admin_master_001"
+                    if (admin) true else {
+                        (uid.isNotBlank() && p.userId == uid) ||
+                        (profile?.phone?.isNotBlank() == true && p.agentPhone == profile.phone) ||
+                        (profile?.name?.isNotBlank() == true && p.agentName == profile.name)
+                    }
+                }
                 else -> true
             }
 
@@ -356,8 +366,15 @@ class RealEstateViewModel(application: Application) : AndroidViewModel(applicati
     val myListings: StateFlow<List<Property>> = repository.allProperties
         .combine(repository.userProfile) { properties, profile ->
             val uid = profile?.uid ?: repository.firebaseService.currentUserId
-            properties.filter { p ->
-                (uid.isNotBlank() && p.userId == uid) || p.agentType == "Direct Post" || p.agentType == "User Post"
+            val admin = profile?.isAdmin == true || profile?.email?.lowercase()?.contains("admin") == true || uid == "admin_master_001"
+            if (admin) {
+                properties
+            } else {
+                properties.filter { p ->
+                    (uid.isNotBlank() && p.userId == uid) ||
+                    (profile?.phone?.isNotBlank() == true && p.agentPhone == profile.phone) ||
+                    (profile?.name?.isNotBlank() == true && p.agentName == profile.name)
+                }
             }
         }.stateIn(
             scope = viewModelScope,
@@ -471,15 +488,14 @@ class RealEstateViewModel(application: Application) : AndroidViewModel(applicati
             onError?.invoke("Guest မဖြစ်နိုင်ပါ။ ကြော်ငြာ ပြင်ဆင်ရန် အကောင့်ဝင်ရောက်ပါ")
             return
         }
-        val isAgencyListing = property.agentType != "User Post" && property.agentType != "Direct Post"
         val isOwner = (property.userId.isNotBlank() && property.userId == currentUid) ||
+                (userProfile.value?.phone?.isNotBlank() == true && property.agentPhone == userProfile.value?.phone) ||
+                (userProfile.value?.name?.isNotBlank() == true && property.agentName == userProfile.value?.name) ||
                 (property.userId.isBlank() && (property.agentType == "Direct Post" || property.agentType == "User Post"))
-        val canModify = if (isAgencyListing) admin else (isOwner || admin)
+        val canModify = admin || isOwner
 
         if (!canModify) {
-            val errMsg = if (isAgencyListing) "အကျိုးဆောင် ကြော်ငြာများကို Admin တစ်ဦးတည်းသာ ပြင်ဆင်ခွင့် ရှိပါသည်"
-                         else "မိမိ ပိုင်ဆိုင်သော ကြော်ငြာများ သို့မဟုတ် Admin သာလျှင် ပြင်ဆင်ခွင့် ရှိပါသည်"
-            onError?.invoke(errMsg)
+            onError?.invoke("မိမိ ပိုင်ဆိုင်သော ကြော်ငြာများ သို့မဟုတ် Admin သာလျှင် ပြင်ဆင်ခွင့် ရှိပါသည်")
             return
         }
 
@@ -523,15 +539,14 @@ class RealEstateViewModel(application: Application) : AndroidViewModel(applicati
 
                 val property = repository.getPropertyById(propertyId).firstOrNull()
                 if (property != null) {
-                    val isAgencyListing = property.agentType != "User Post" && property.agentType != "Direct Post"
                     val isOwner = (property.userId.isNotBlank() && property.userId == currentUid) ||
+                            (userProfile.value?.phone?.isNotBlank() == true && property.agentPhone == userProfile.value?.phone) ||
+                            (userProfile.value?.name?.isNotBlank() == true && property.agentName == userProfile.value?.name) ||
                             (property.userId.isBlank() && (property.agentType == "Direct Post" || property.agentType == "User Post"))
-                    val canModify = if (isAgencyListing) admin else (isOwner || admin)
+                    val canModify = admin || isOwner
 
                     if (!canModify) {
-                        val errMsg = if (isAgencyListing) "အကျိုးဆောင် ကြော်ငြာများကို Admin တစ်ဦးတည်းသာ ဖျက်ပိုင်ခွင့် ရှိပါသည်"
-                                     else "မိမိ ပိုင်ဆိုင်သော ကြော်ငြာများ သို့မဟုတ် Admin သာလျှင် ဖျက်ခွင့် ရှိပါသည်"
-                        onError?.invoke(errMsg)
+                        onError?.invoke("မိမိ ပိုင်ဆိုင်သော ကြော်ငြာများ သို့မဟုတ် Admin သာလျှင် ဖျက်ခွင့် ရှိပါသည်")
                         return@launch
                     }
                     repository.deletePropertyWithFirebase(property)

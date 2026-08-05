@@ -96,11 +96,11 @@ fun PropertyDetailScreen(
                     Column(modifier = Modifier.weight(1f)) {
                         Text(text = "စျေးနှုန်း", fontSize = 11.sp, color = Color.Gray)
                         Text(
-                            text = if (property.priceLakhs >= 1000) {
-                                String.format("%.1f", property.priceLakhs / 1000.0) + " သောင်း"
+                            text = if (property.priceLakhs % 1.0 == 0.0) {
+                                String.format("%,d သိန်း", property.priceLakhs.toLong())
                             } else {
-                                "${property.priceLakhs.toInt()} သိန်း"
-                            },
+                                String.format("%,.1f သိန်း", property.priceLakhs)
+                            } + if (property.listingType == "RENT") " / လ" else "",
                             fontSize = 17.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = RealEstateNavy
@@ -191,7 +191,7 @@ fun PropertyDetailScreen(
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        if (isOwner && onEditClick != null) {
+                        if ((isOwner || isAdmin) && onEditClick != null) {
                             IconButton(
                                 onClick = { onEditClick(property) },
                                 modifier = Modifier
@@ -202,7 +202,7 @@ fun PropertyDetailScreen(
                             }
                         }
 
-                        if (isOwner && onDeleteClick != null) {
+                        if ((isOwner || isAdmin) && onDeleteClick != null) {
                             IconButton(
                                 onClick = { showDeleteConfirmDialog = true },
                                 modifier = Modifier
@@ -296,16 +296,20 @@ fun PropertyDetailScreen(
                 }
 
                 // Listing Tag Badge
-                val isRent = property.listingType == "RENT"
+                val (badgeText, badgeColor) = when (property.listingType) {
+                    "RENT" -> "ငှားရန် (Rent)" to RealEstateBlue
+                    "BUY" -> "ဝယ်ရန် (Want to Buy)" to RealEstateGold
+                    else -> "ရောင်းရန် (For Sale)" to RealEstateGreen
+                }
                 Surface(
                     shape = RoundedCornerShape(20.dp),
-                    color = if (isRent) RealEstateBlue else RealEstateGreen,
+                    color = badgeColor,
                     modifier = Modifier
                         .padding(16.dp)
                         .align(Alignment.BottomStart)
                 ) {
                     Text(
-                        text = if (isRent) "ငှားရန် (Rent)" else "ဝယ်ရန်/ရောင်းရန် (Sale)",
+                        text = badgeText,
                         color = Color.White,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
@@ -515,9 +519,8 @@ fun PropertyDetailScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Manage Listing Card (Visible to property owner for direct posts, or ONLY Admin for agency listings)
-                val isAgencyListing = property?.agentType != "User Post" && property?.agentType != "Direct Post"
-                val canManageListing = if (isAgencyListing) isAdmin else (isOwner || isAdmin)
+                // Manage Listing Card (Visible to property owner or Admin)
+                val canManageListing = isOwner || isAdmin
 
                 if (canManageListing) {
                     Card(

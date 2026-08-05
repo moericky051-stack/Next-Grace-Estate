@@ -1,22 +1,18 @@
-name: Build Android APK
+name: Android CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [ "main", "master", "develop" ]
   pull_request:
-    branches:
-      - main
-      - master
-  workflow_dispatch:
+    branches: [ "main", "master", "develop" ]
 
 jobs:
   build:
+    name: Build & Test Android App
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -24,23 +20,29 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'gradle'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew || true
 
-      # Keystore file မရှိလို့ Build Fail တာကို ကာကွယ်ရန် Dummy Debug Keystore ဖန်တီးပေးခြင်း
-      - name: Create Debug Keystore
-        run: |
-          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      # KSP Headless Mode ဖြင့် Debug APK ကို Build လုပ်မည်
+      - name: Run Unit Tests
+        run: gradle testDebugUnitTest --continue
+
       - name: Build Debug APK
-        env:
-          GRADLE_OPTS: "-Djava.awt.headless=true"
-        run: gradle assembleDebug -x test
+        run: gradle assembleDebug
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk
+          name: grace-realestate-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk

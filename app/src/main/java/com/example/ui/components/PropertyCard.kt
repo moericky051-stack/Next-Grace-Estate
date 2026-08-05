@@ -34,7 +34,11 @@ fun PropertyCard(
     onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isRent = property.listingType == "RENT"
+    val (badgeText, badgeColor) = when (property.listingType) {
+        "RENT" -> "ငှားရန်" to RealEstateBlue
+        "BUY" -> "ဝယ်ရန်" to RealEstateGold
+        else -> "ရောင်းရန်" to RealEstateGreen
+    }
 
     Card(
         modifier = modifier
@@ -69,16 +73,16 @@ fun PropertyCard(
                         )
                 )
 
-                // Listing Type Tag Badge (BUY / RENT)
+                // Listing Type Tag Badge (SELL / RENT / BUY)
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = if (isRent) RealEstateBlue else RealEstateGreen,
+                    color = badgeColor,
                     modifier = Modifier
                         .padding(6.dp)
                         .align(Alignment.TopStart)
                 ) {
                     Text(
-                        text = if (isRent) "ငှားရန်" else "ဝယ်ရန်",
+                        text = badgeText,
                         color = Color.White,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
@@ -103,7 +107,7 @@ fun PropertyCard(
                     )
                 }
 
-                // Price Tag overlay at bottom left of image
+                // Price Tag overlay at bottom left of image (Always in Lakhs - သိန်း format)
                 Surface(
                     shape = RoundedCornerShape(topEnd = 8.dp),
                     color = RealEstateNavy.copy(alpha = 0.92f),
@@ -114,16 +118,16 @@ fun PropertyCard(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = if (property.priceLakhs >= 1000) {
-                                String.format("%.1f", property.priceLakhs / 1000.0) + " သောင်း"
+                            text = if (property.priceLakhs % 1.0 == 0.0) {
+                                String.format("%,d သိန်း", property.priceLakhs.toLong())
                             } else {
-                                "${property.priceLakhs.toInt()} သိန်း"
+                                String.format("%,.1f သိန်း", property.priceLakhs)
                             },
                             color = RealEstateGold,
                             fontSize = 12.5.sp,
                             fontWeight = FontWeight.ExtraBold
                         )
-                        if (isRent) {
+                        if (property.listingType == "RENT") {
                             Text(
                                 text = " / လ",
                                 color = Color.White.copy(alpha = 0.85f),
