@@ -70,6 +70,11 @@ dependencies {
     // Coil Image Loading Library (AsyncImage အတွက်)
     implementation("io.coil-kt:coil-compose:2.7.0")
 
+implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
+}
+
     // Jetpack Compose (BOM)
     implementation(platform("androidx.compose:compose-bom:2024.10.01"))
     implementation("androidx.compose.ui:ui")
