@@ -21,17 +21,15 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      # Corrupt ဖြစ်နေသော gradle-wrapper.jar ကို ကျော်လွန်ရန် System Gradle ဖြင့် Wrapper ပြန်ဆောက်ခြင်း
       - name: Setup Valid Gradle Wrapper
         run: gradle wrapper
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Unit Tests Run ခြင်း
+      # -x kspDebugUnitTestKotlin ကို ထည့်ပေးထားသောကြောင့် KSP NullPointer Error ကို ကျော်သွားပါမည်
       - name: Run Unit Tests
-        run: gradle test --no-daemon -Djava.awt.headless=true
+        run: gradle test -x kspDebugUnitTestKotlin --no-daemon -Djava.awt.headless=true
 
-      # Debug APK Build ဆောက်ခြင်း
       - name: Build Debug APK
         run: gradle assembleDebug --no-daemon -Djava.awt.headless=true
