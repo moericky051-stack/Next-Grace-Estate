@@ -21,15 +21,12 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      # Corrupt ဖြစ်နေသော gradle-wrapper.jar ကို ပြန်လည် ထုတ်ပေးမည့် Step
-      - name: Regenerate Gradle Wrapper
-        run: gradle wrapper
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # -Djava.awt.headless=true ထည့်သွင်းထားခြင်းဖြင့် AWT NullPointerException ကို ဖြေရှင်းပေးပါသည်
       - name: Run Unit Tests
-        run: ./gradlew test --no-daemon -Dorg.gradle.jvmargs="-Xmx2048m -XX:MaxMetaspaceSize=512m"
+        run: ./gradlew test --no-daemon -Djava.awt.headless=true -Dorg.gradle.jvmargs="-Xmx2048m -Djava.awt.headless=true"
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleDebug --no-daemon -Djava.awt.headless=true
