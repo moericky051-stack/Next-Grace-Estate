@@ -10,7 +10,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        // Firebase Console ရှိ Package Name နှင့် အတိအကျ ညှိထားသည်
+        // Firebase Console ရှိ Package Name (com.aistudio.realestate) နှင့် ညှိထားသည်
         applicationId = "com.aistudio.realestate"
         minSdk = 24
         targetSdk = 35
@@ -22,7 +22,7 @@ android {
 
     signingConfigs {
         create("debugConfig") {
-            // Root project ထဲတွင် debug.keystore ရှိမှ သုံးမည် (CI/CD error မတက်စေရန် စစ်ဆေးပေးထားသည်)
+            // Root project ထဲတွင် debug.keystore ရှိမှ သုံးမည်
             val keystoreFile = rootProject.file("debug.keystore")
             if (keystoreFile.exists()) {
                 storeFile = keystoreFile
