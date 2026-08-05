@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import com.aistudio.realestate.R
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
