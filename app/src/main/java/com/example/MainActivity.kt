@@ -41,7 +41,7 @@ import com.aistudio.realestate.ui.theme.MyApplicationTheme
 import com.aistudio.realestate.ui.viewmodel.RealEstateViewModel
 import kotlinx.coroutines.launch
 
-// Import မရှိသေး၍ Error တက်ခြင်းကို ကာကွယ်ရန် Color များကို ဒီနေရာတွင် တိုက်ရိုက် သတ်မှတ်ပေးထားပါသည်
+// Color Definitions
 val RealEstateGold = Color(0xFFFFD700)
 val RealEstateNavy = Color(0xFF000080)
 
@@ -444,7 +444,7 @@ fun RealEstateApp(
                     }
                 }
 
-                // 4. Saved / Favorites Screen
+                // 4. Saved / Favorites Screen (Type Safety ပြင်ဆင်ထားသည့် အပိုင်း)
                 composable("favorites") {
                     FavoritesScreen(
                         favoriteProperties = favoriteProperties,
@@ -517,7 +517,7 @@ fun LoadingOverlay(
     }
 }
 
-// သီးသန့် Screencode ဖိုင်များ မရှိသေးပါက Build မပျက်စေရန် အောက်ပါ အရန် Dummy Screen များကို ထည့်သွင်းပေးထားပါသည်
+// Fallback screen definitions
 @Composable
 fun AgentDirectoryScreen() {
     Box(
