@@ -33,6 +33,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.aistudio.realestate.data.*
+import com.aistudio.realestate.data.model.*
+import com.aistudio.realestate.model.*
 import com.aistudio.realestate.ui.screens.*
 import com.aistudio.realestate.ui.theme.MyApplicationTheme
 import com.aistudio.realestate.ui.viewmodel.RealEstateViewModel
@@ -448,8 +451,8 @@ fun RealEstateApp(
                         onPropertyClick = { propertyId ->
                             navController.navigate("detail/$propertyId")
                         },
-                        onFavoriteToggle = { property ->
-                            viewModel.toggleFavorite(property)
+                        onFavoriteToggle = { item ->
+                            viewModel.toggleFavorite(item)
                             scope.launch { snackbarHostState.showSnackbar("အကြိုက်ဆုံးမှ ဖယ်ရှားလိုက်ပါပြီ") }
                         }
                     )
