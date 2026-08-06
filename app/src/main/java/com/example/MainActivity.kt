@@ -514,7 +514,7 @@ fun LoadingOverlay(
     }
 }
 
-// AgentDirectoryScreen ဖိုင်မရှိသေးပါက မပျက်စေရန် အောက်တွင် အရန် Dummy ထည့်သွင်းပေးထားပါသည်
+// သီးသန့် Screencode ဖိုင်များ မရှိသေးပါက Build မပျက်စေရန် အောက်ပါ အရန် Dummy Screen များကို ထည့်သွင်းပေးထားပါသည်
 @Composable
 fun AgentDirectoryScreen() {
     Box(
@@ -522,5 +522,15 @@ fun AgentDirectoryScreen() {
         contentAlignment = Alignment.Center
     ) {
         Text("အကျိုးဆောင်များ စာရင်း")
+    }
+}
+
+@Composable
+fun CalculatorScreen(initialPriceLakhs: Double = 3500.0) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text("တွက်ချက်စက် ($initialPriceLakhs သိန်း)")
     }
 }
