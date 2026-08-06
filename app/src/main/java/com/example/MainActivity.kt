@@ -1,4 +1,4 @@
-package com.example
+package com.aistudio.realestate
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
