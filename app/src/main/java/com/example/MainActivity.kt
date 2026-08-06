@@ -30,12 +30,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.ui.components.LoadingOverlay
-import com.example.ui.screens.*
-import com.example.ui.theme.MyApplicationTheme
-import com.example.ui.theme.RealEstateGold
-import com.example.ui.theme.RealEstateNavy
-import com.example.ui.viewmodel.RealEstateViewModel
+import com.aistudio.realestate.ui.components.LoadingOverlay
+import com.aistudio.realestate.ui.screens.*
+import com.aistudio.realestate.ui.theme.MyApplicationTheme
+import com.aistudio.realestate.ui.theme.RealEstateGold
+import com.aistudio.realestate.ui.theme.RealEstateNavy
+import com.aistudio.realestate.ui.viewmodel.RealEstateViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
