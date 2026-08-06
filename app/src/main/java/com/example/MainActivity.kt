@@ -10,12 +10,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -31,7 +33,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.aistudio.realestate.ui.components.LoadingOverlay
 import com.aistudio.realestate.ui.screens.*
 import com.aistudio.realestate.ui.theme.MyApplicationTheme
 import com.aistudio.realestate.ui.theme.RealEstateGold
@@ -482,3 +483,31 @@ data class BottomNavItem(
     val unselectedIcon: ImageVector,
     val badgeCount: Int = 0
 )
+
+@Composable
+fun LoadingOverlay(
+    isLoading: Boolean,
+    message: String = "Loading..."
+) {
+    if (isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(color = RealEstateGold)
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(text = message, fontSize = 14.sp)
+                }
+            }
+        }
+    }
+}
