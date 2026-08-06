@@ -542,9 +542,9 @@ fun CalculatorScreen(initialPriceLakhs: Double = 3500.0) {
 
 @Composable
 fun FavoritesScreen(
-    favoriteProperties: List<Any> = emptyList(),
+    favoriteProperties: List<com.example.data.model.Property> = emptyList(),
     onPropertyClick: (Long) -> Unit = {},
-    onFavoriteToggle: (Any) -> Unit = {}
+    onFavoriteToggle: (com.example.data.model.Property) -> Unit = {}
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
