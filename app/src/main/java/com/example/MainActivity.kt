@@ -1,5 +1,5 @@
-package 
-com.aistudio.realestate
+package com.aistudio.realestate
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +18,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -477,7 +478,7 @@ fun RealEstateApp(
 data class BottomNavItem(
     val route: String,
     val label: String,
-    val selectedIcon: androidx.compose.ui.graphics.vector.ImageVector,
-    val unselectedIcon: androidx.compose.ui.graphics.vector.ImageVector,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector,
     val badgeCount: Int = 0
 )
