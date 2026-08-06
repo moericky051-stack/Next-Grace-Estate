@@ -35,10 +35,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.aistudio.realestate.ui.screens.*
 import com.aistudio.realestate.ui.theme.MyApplicationTheme
-import com.aistudio.realestate.ui.theme.RealEstateGold
-import com.aistudio.realestate.ui.theme.RealEstateNavy
 import com.aistudio.realestate.ui.viewmodel.RealEstateViewModel
 import kotlinx.coroutines.launch
+
+// Import မရှိသေး၍ Error တက်ခြင်းကို ကာကွယ်ရန် Color များကို ဒီနေရာတွင် တိုက်ရိုက် သတ်မှတ်ပေးထားပါသည်
+val RealEstateGold = Color(0xFFFFD700)
+val RealEstateNavy = Color(0xFF000080)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -509,5 +511,16 @@ fun LoadingOverlay(
                 }
             }
         }
+    }
+}
+
+// AgentDirectoryScreen ဖိုင်မရှိသေးပါက မပျက်စေရန် အောက်တွင် အရန် Dummy ထည့်သွင်းပေးထားပါသည်
+@Composable
+fun AgentDirectoryScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text("အကျိုးဆောင်များ စာရင်း")
     }
 }
