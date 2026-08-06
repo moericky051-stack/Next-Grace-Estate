@@ -35,9 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import kotlinx.coroutines.launch
 
-// Project Imports
-import com.example.*
-import com.example.model.*
+// Project Imports (မှန်ကန်သော Package Path များ)
 import com.example.data.*
 import com.example.data.model.*
 import com.example.ui.screens.*
@@ -542,9 +540,9 @@ fun CalculatorScreen(initialPriceLakhs: Double = 3500.0) {
 
 @Composable
 fun FavoritesScreen(
-    favoriteProperties: List<com.example.data.model.Property> = emptyList(),
+    favoriteProperties: List<Property> = emptyList(),
     onPropertyClick: (Long) -> Unit = {},
-    onFavoriteToggle: (com.example.data.model.Property) -> Unit = {}
+    onFavoriteToggle: (Property) -> Unit = {}
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
