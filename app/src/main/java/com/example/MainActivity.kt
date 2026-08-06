@@ -193,12 +193,12 @@ fun RealEstateApp(
                         onPriceChanged = { viewModel.maxPriceLakhs.value = it },
                         minBedrooms = minBedrooms,
                         onBedroomsSelected = { viewModel.minBedrooms.value = it },
-                        onFavoriteToggle = { property ->
+                        onFavoriteToggle = { property: Property ->
                             viewModel.toggleFavorite(property)
                             val statusText = if (property.isFavorite) "အကြိုက်ဆုံးမှ ဖယ်ရှားလိုက်ပါပြီ" else "အကြိုက်ဆုံးစာရင်းသို့ ထည့်သွင်းလိုက်ပါပြီ"
                             scope.launch { snackbarHostState.showSnackbar(statusText) }
                         },
-                        onPropertyClick = { propertyId ->
+                        onPropertyClick = { propertyId: Long ->
                             navController.navigate("detail/$propertyId")
                         },
                         onPostNewClick = {
@@ -247,10 +247,10 @@ fun RealEstateApp(
                             viewModel.signOut()
                             scope.launch { snackbarHostState.showSnackbar("အကောင့်မှ ထွက်လိုက်ပါပြီ။") }
                         },
-                        onEditProperty = { property ->
+                        onEditProperty = { property: Property ->
                             navController.navigate("edit/${property.id}")
                         },
-                        onDeleteProperty = { propertyId ->
+                        onDeleteProperty = { propertyId: Long ->
                             viewModel.deleteProperty(propertyId = propertyId, onSuccess = {
                                 scope.launch { snackbarHostState.showSnackbar("ကြော်ငြာ ဖျက်ပြီးပါပြီ။") }
                             }, onError = { err ->
@@ -263,7 +263,7 @@ fun RealEstateApp(
                     )
                 }
 
-                // Auth Screen (Full Screen)
+                // Auth Screen
                 composable("auth") {
                     AuthScreen(
                         userProfile = userProfile,
@@ -303,13 +303,13 @@ fun RealEstateApp(
                             viewModel.signOut()
                             scope.launch { snackbarHostState.showSnackbar("အကောင့်မှ ထွက်လိုက်ပါပြီ။") }
                         },
-                        onPropertyClick = { propertyId ->
+                        onPropertyClick = { propertyId: Long ->
                             navController.navigate("detail/$propertyId")
                         },
-                        onEditProperty = { property ->
+                        onEditProperty = { property: Property ->
                             navController.navigate("edit/${property.id}")
                         },
-                        onDeleteProperty = { propertyId ->
+                        onDeleteProperty = { propertyId: Long ->
                             viewModel.deleteProperty(propertyId = propertyId, onSuccess = {
                                 scope.launch { snackbarHostState.showSnackbar("ကြော်ငြာ ဖျက်ပြီးပါပြီ။") }
                             }, onError = { err ->
@@ -342,7 +342,7 @@ fun RealEstateApp(
                         isAdmin = isAdmin,
                         isSignedIn = isSignedIn,
                         onBackClick = { navController.popBackStack() },
-                        onFavoriteToggle = { prop ->
+                        onFavoriteToggle = { prop: Property ->
                             viewModel.toggleFavorite(prop)
                             val statusText = if (prop.isFavorite) "အကြိုက်ဆုံးမှ ဖယ်ရှားလိုက်ပါပြီ" else "အကြိုက်ဆုံးစာရင်းသို့ ထည့်သွင်းလိုက်ပါပြီ"
                             scope.launch { snackbarHostState.showSnackbar(statusText) }
@@ -351,10 +351,10 @@ fun RealEstateApp(
                             navController.navigate("calculator?price=$priceLakhs")
                         },
                         onEditClick = if (canModify) {
-                            { prop -> navController.navigate("edit/${prop.id}") }
+                            { prop: Property -> navController.navigate("edit/${prop.id}") }
                         } else null,
                         onDeleteClick = if (canModify) {
-                            { id ->
+                            { id: Long ->
                                 viewModel.deleteProperty(id, onSuccess = {
                                     scope.launch { snackbarHostState.showSnackbar("ကြော်ငြာ ဖျက်လိုက်ပါပြီ။") }
                                     navController.popBackStack()
@@ -429,7 +429,7 @@ fun RealEstateApp(
                         PostPropertyScreen(
                             onBackClick = { navController.popBackStack() },
                             existingProperty = property,
-                            onUpdateProperty = { updated ->
+                            onUpdateProperty = { updated: Property ->
                                 viewModel.updateProperty(updated, onSuccess = {
                                     scope.launch {
                                         snackbarHostState.showSnackbar("ကြော်ငြာ ပြင်ဆင်ပြီးပါပြီ။")
@@ -444,14 +444,14 @@ fun RealEstateApp(
                     }
                 }
 
-                // 4. Saved / Favorites Screen (Type Safety ပြင်ဆင်ထားသည့် အပိုင်း)
+                // 4. Saved / Favorites Screen
                 composable("favorites") {
                     FavoritesScreen(
                         favoriteProperties = favoriteProperties,
-                        onPropertyClick = { propertyId ->
+                        onPropertyClick = { propertyId: Long ->
                             navController.navigate("detail/$propertyId")
                         },
-                        onFavoriteToggle = { item ->
+                        onFavoriteToggle = { item: Property ->
                             viewModel.toggleFavorite(item)
                             scope.launch { snackbarHostState.showSnackbar("အကြိုက်ဆုံးမှ ဖယ်ရှားလိုက်ပါပြီ") }
                         }
@@ -517,7 +517,7 @@ fun LoadingOverlay(
     }
 }
 
-// Fallback screen definitions
+// သီးသန့် Screencode ဖိုင်များ သို့မဟုတ် Class ရှာမတွေ့ပါက Build မပျက်စေရန် အောက်ပါ Backup Screen များ ထည့်သွင်းထားပါသည်
 @Composable
 fun AgentDirectoryScreen() {
     Box(
@@ -535,5 +535,23 @@ fun CalculatorScreen(initialPriceLakhs: Double = 3500.0) {
         contentAlignment = Alignment.Center
     ) {
         Text("တွက်ချက်စက် ($initialPriceLakhs သိန်း)")
+    }
+}
+
+@Composable
+fun FavoritesScreen(
+    favoriteProperties: List<Property>,
+    onPropertyClick: (Long) -> Unit,
+    onFavoriteToggle: (Property) -> Unit
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        if (favoriteProperties.isEmpty()) {
+            Text("သိမ်းဆည်းထားသော ကြော်ငြာများ မရှိသေးပါ")
+        } else {
+            Text("သိမ်းဆည်းထားသော ကြော်ငြာ အရေအတွက်: ${favoriteProperties.size}")
+        }
     }
 }
